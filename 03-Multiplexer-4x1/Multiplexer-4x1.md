@@ -1,0 +1,48 @@
+# 4:1 Multiplexer
+
+## Aim
+To design a 4:1 multiplexer using an if-else statement.
+
+## 1. Verilog design code
+```verilog
+module mux4to1(i, s, y);
+input [3:0] i;
+input [1:0] s;
+output reg y;
+
+always @ (*)
+if (s==0)
+  y=i[0];
+else if (s==1)
+  y=i[1];
+else if (s==2)
+  y=i[2];
+else
+  y=i[3];
+endmodule
+```
+
+## 2. Verilog testbench code
+```verilog
+module mux4to1_tb();
+reg [3:0] i;
+reg [1:0] s;
+wire y;
+
+mux4to1 g1(i, s, y);
+
+initial
+begin
+  #0  s=2'b00; i=4'b0001;
+  #10 s=2'b01; i=4'b0001;
+  #10 s=2'b10; i=4'b0101;
+  #10 s=2'b11; i=4'b1001;
+end
+
+initial
+  $monitor($time, "i=%b, s=%b, y=%b", i, s, y);
+
+initial
+  #100 $finish;
+endmodule
+```
